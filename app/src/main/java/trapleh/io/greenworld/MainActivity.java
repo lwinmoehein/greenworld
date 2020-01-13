@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 import trapleh.io.greenworld.fragment.MainFragment;
+import trapleh.io.greenworld.fragment.profileFragment;
 import trapleh.io.greenworld.ui.TabAdapter;
 
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new MainFragment(), "home");
         adapter.addFragment(new MainFragment(), "plastic");
         adapter.addFragment(new MainFragment(), "plants");
-        adapter.addFragment(new MainFragment(), "profile");
+        adapter.addFragment(new profileFragment(), "profile");
 
 
         viewPager.setAdapter(adapter);
