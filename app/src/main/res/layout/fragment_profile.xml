@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/ten_dp"
+        app:cardCornerRadius="@dimen/ten_dp"
+        app:cardBackgroundColor="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/ic_profile_one"
+                android:id="@+id/iv_profile_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"/>
+            <TextView
+                android:layout_marginTop="@dimen/ten_dp"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/iv_profile_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="18dp"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginRight="@dimen/ten_dp"
+        android:layout_marginLeft="@dimen/ten_dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_plastic"/>
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Plastic"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/ten_dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:layout_gravity="center_vertical"
+                android:textSize="25dp"
+                android:gravity="right"
+                android:layout_marginRight="@dimen/ten_dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="@dimen/ten_dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_plant"/>
+            <TextView
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Plant"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/ten_dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:layout_gravity="center_vertical"
+                android:textSize="25dp"
+                android:gravity="right"
+                android:layout_marginRight="@dimen/ten_dp"
+                />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:padding="@dimen/ten_dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/ten_dp"/>
+
+</LinearLayout>
