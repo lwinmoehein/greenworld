@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "926491198277",
+    "firebase_url": "https://greenplanet-62377.firebaseio.com",
+    "project_id": "greenplanet-62377",
+    "storage_bucket": "greenplanet-62377.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926491198277:android:ad591398767f8be5a4f42c",
+        "android_client_info": {
+          "package_name": "trapleh.io.greenworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926491198277-fc8h6sk1vvgjmipcrqetfjnqgq6dvilq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trapleh.io.greenworld",
+            "certificate_hash": "1c4bf4b7332cbff60f5338d81a789ff312b3cfc0"
+          }
+        },
+        {
+          "client_id": "926491198277-3p1lq2kpk9gmi3o8htvpe50rsi9fsfai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBox_UKJmr3xGsPA1PO877BQaTZl-HdGiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926491198277-3p1lq2kpk9gmi3o8htvpe50rsi9fsfai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
