@@ -26,14 +26,31 @@
                 android:layout_weight="4"
                 app:srcCompat="@drawable/ic_profile_one" />
 
-            <TextView
-                android:id="@+id/post_user_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Kyaw Kyaw"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/post_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Kyaw Kyaw"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/post_item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="3.3.20" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -46,6 +63,7 @@
                 android:id="@+id/post_item_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
                 android:layout_weight="1"
                 android:text="testing testing testing testing testing testing testing testing teesting tresing teisgtn tesgting testn" />
 
@@ -72,6 +90,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.4"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,21 +142,6 @@
                         android:gravity="center_vertical"
                         android:text="0 comments" />
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/post_item_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="3.3.20" />
             </LinearLayout>
 
         </LinearLayout>
