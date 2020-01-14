@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import trapleh.io.greenworld.R;
@@ -27,7 +30,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public PostAdapter(List<Post> postArrayList) {
         this.postArrayList = postArrayList;
-        Log.d("Menu Adapter","menu adapter initiated");
+
     }
 
     @NonNull
@@ -50,7 +53,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     static class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView username,posttext,liketext,commenttext,date;
-        private ImageView userprofile,postimage;
+        private ImageView userprofile,postimage,likeBtn,commentBtn;
         public PostViewHolder(View view){
             super(view);
             this.username=view.findViewById(R.id.post_user_name);
@@ -62,9 +65,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             this.userprofile=view.findViewById(R.id.post_user_profile);
             this.postimage=view.findViewById(R.id.post_item_image);
 
+            //like and comment
+            this.likeBtn=view.findViewById(R.id.post_item_like_btn);
+            this.commentBtn=view.findViewById(R.id.post_item_comment_btn);
+
+
+
         }
 
         public void bindPostUi(Post post) {
+            //bind data
             this.username.setText(post.getUsername());
             this.posttext.setText(post.getPosttitle());
             this.liketext.setText(Integer.toString(post.getLikes()));
@@ -78,7 +88,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         .centerCrop().placeholder(R.drawable.post_img_placeholder)
                         .into(postimage);
             }
-            //this.date.setText(new String(post.getPosteddate()));
+            PrettyTime p = new PrettyTime();
+            date.setText(p.format(new Date((long)post.getPosteddate())));
+            //end of binding
+
+            //listeners
+            this.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            this.commentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
     }
 
