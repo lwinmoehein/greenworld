@@ -12,6 +12,8 @@ import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             this.commenttext.setText(Integer.toString(post.getComments()));
             if(!post.isHasimage()){
                 postimage.setVisibility(View.GONE);
+            }else{
+                Picasso.get()
+                        .load(post.getImageurl())
+                        .resize(300, 200)
+                        .centerCrop().placeholder(R.drawable.post_img_placeholder)
+                        .into(postimage);
             }
             //this.date.setText(new String(post.getPosteddate()));
         }

@@ -1,7 +1,7 @@
 package trapleh.io.greenworld.model;
 
 public class Post {
-    private String id,userid,username,userprofile,posttitle;
+    private String id,userid,username,profileurl,posttitle,imageurl;
     private int likes,comments;
     private Object posteddate;
     private boolean hasimage;
@@ -14,16 +14,26 @@ public class Post {
         this.hasimage = hasimage;
     }
 
-    public Post(String id, String userid, String username, String userprofile, String posttitle, boolean hasimage, int likes, int comments, Object posteddate) {
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    public Post(String id, String userid, String username, String userprofile, String posttitle, boolean hasimage, String imageurl, int likes, int comments, Object posteddate) {
         this.id = id;
         this.userid = userid;
         this.username = username;
-        this.userprofile = userprofile;
+        this.profileurl = userprofile;
         this.posttitle = posttitle;
         this.hasimage=hasimage;
         this.likes = likes;
         this.comments = comments;
         this.posteddate = posteddate;
+        this.imageurl=imageurl;
     }
     public Post(){}
 
@@ -51,12 +61,12 @@ public class Post {
         this.username = username;
     }
 
-    public String getUserprofile() {
-        return userprofile;
+    public String getProfileUrl() {
+        return profileurl;
     }
 
-    public void setUserprofile(String userprofile) {
-        this.userprofile = userprofile;
+    public void setProfileUrl(String userprofile) {
+        this.profileurl = userprofile;
     }
 
     public String getPosttitle() {
