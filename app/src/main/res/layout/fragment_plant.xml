@@ -6,10 +6,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.PlantFragment"
     android:orientation="vertical">
-    <com.github.mikephil.charting.charts.HorizontalBarChart
-        android:id="@+id/chart"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/percent_frame"
+        android:layout_margin="@dimen/ten_dp"
+        app:cardCornerRadius="@dimen/ten_dp"
+        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/live_frame"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/live_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Live   "
+                    android:textSize="20dp"/>
+                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                    android:layout_toRightOf="@+id/live_label"
+                    android:layout_toLeftOf="@+id/live_percent"
+                    android:id="@+id/progress_1"
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    app:rcBackgroundPadding="3dp"
+                    app:rcProgressColor="@color/colorPrimary"
+                    app:rcBackgroundColor="@color/grey"
+                    app:rcRadius="10dp"
+                    android:layout_margin="@dimen/ten_dp"/>
+                <TextView
+                    android:id="@+id/live_percent"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="75%"
+                    android:textSize="20dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/death_frame"
+                android:layout_below="@+id/live_frame"
+                android:paddingRight="@dimen/ten_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/death_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Death"
+                    android:textSize="20dp"/>
+                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                    android:layout_toRightOf="@+id/death_label"
+                    android:layout_toLeftOf="@+id/death_percent"
+                    android:id="@+id/progress_death"
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    app:rcBackgroundPadding="3dp"
+                    app:rcProgressColor="@color/red"
+                    app:rcBackgroundColor="@color/grey"
+                    app:rcRadius="10dp"
+                    android:layout_margin="@dimen/ten_dp"/>
+                <TextView
+                    android:id="@+id/death_percent"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="25%"
+                    android:textSize="20dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="80dp"
@@ -19,5 +103,51 @@
         android:layout_margin="@dimen/ten_dp"
         android:src="@drawable/ic_add"
         app:rippleColor="@color/red"/>
+    <LinearLayout
+        android:id="@+id/btn_frame"
+        android:layout_below="@id/percent_frame"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:weightSum="1">
 
+        <Button
+            android:layout_weight="0.5"
+            android:id="@+id/btn_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Live ( 75 )"
+            android:background="@drawable/live_design_click"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            />
+        <Button
+            android:textStyle="bold"
+            android:layout_weight="0.5"
+            android:id="@+id/btn_death"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Death ( 25 )"
+            android:background="@drawable/death_design_enable"
+            android:textColor="@color/colorPrimary"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_margin="@dimen/ten_dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_frame">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rv_death"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
 </RelativeLayout>
