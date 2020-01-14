@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="trapleh.io.greenworld">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,16 @@
         <activity android:name=".activity.NewPostActivity"
             android:theme="@style/AppTheme"
             android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".activity.PhoneAuthActivity"
+            android:theme="@style/AppThemeLogInRegister"
+            ></activity>
+        <activity android:name=".activity.RegisterActivity"
+            android:theme="@style/AppThemeLogInRegister"
+            ></activity>
+        <activity android:name=".activity.LoginActivity"
+            android:theme="@style/AppThemeLogInRegister"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
