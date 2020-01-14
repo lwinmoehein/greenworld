@@ -2,6 +2,7 @@ package trapleh.io.greenworld.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,14 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Post post = (Post) dataSnapshot.getValue(Post.class);
+                for (int i = 0; i < posts.size(); i++) {
+                    if (((Post) posts.get(i)).getId().equals(post.getId())) {
+                          adapterPosts.changeIndexData(post, i);
+                          Log.i("change "+post.getLikes(), "like data changed");
 
+                    }
+                }
             }
 
             @Override

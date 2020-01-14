@@ -1,17 +1,28 @@
 package trapleh.io.greenworld.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -21,7 +32,12 @@ import java.util.Date;
 import java.util.List;
 
 import trapleh.io.greenworld.R;
+import trapleh.io.greenworld.activity.CommentActivity;
 import trapleh.io.greenworld.model.Post;
+import trapleh.io.greenworld.model.User;
+import trapleh.io.greenworld.statics.LikeStatic;
+import trapleh.io.greenworld.statics.PostStatic;
+import trapleh.io.greenworld.statics.UserStatic;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
 
@@ -30,6 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public PostAdapter(List<Post> postArrayList) {
         this.postArrayList = postArrayList;
+        this.setHasStableIds(true);
 
     }
 
@@ -43,11 +60,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override public void onBindViewHolder(@NonNull PostViewHolder menuViewHolder, int i) {
         Post post=postArrayList.get(i);
-        menuViewHolder.bindPostUi(post);
+        menuViewHolder.bindPostUi(post,this,postArrayList);
     }
 
     @Override public int getItemCount() {
         return postArrayList.size();
+
+    }
+
+    public void changeIndexData(Post post, int i) {
+        postArrayList.get(i).setLikes(post.getLikes());
+        postArrayList.get(i).setComments(post.getComments());
+        postArrayList.get(i).setPosttitle(post.getPosttitle());
+        notifyDataSetChanged();
     }
 
 
@@ -73,8 +98,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         }
 
-        public void bindPostUi(Post post) {
+        public void bindPostUi(Post post, PostAdapter adapter,List<Post> posts) {
+
             //bind data
+            Glide.with(username.getContext()).load(post.getProfileUrl()).into(this.userprofile);
             this.username.setText(post.getUsername());
             this.posttext.setText(post.getPosttitle());
             this.liketext.setText(Integer.toString(post.getLikes()));
@@ -82,6 +109,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             if(!post.isHasimage()){
                 postimage.setVisibility(View.GONE);
             }else{
+                postimage.setVisibility(View.VISIBLE);
                 Picasso.get()
                         .load(post.getImageurl())
                         .resize(300, 200)
@@ -91,19 +119,105 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             PrettyTime p = new PrettyTime();
             date.setText(p.format(new Date((long)post.getPosteddate())));
             //end of binding
+           LikeStatic.likeRef.child(post.getId()).child(UserStatic.currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                   if(dataSnapshot.getValue()==null){
+                       likeBtn.setImageResource(R.drawable.ic_unlike);
+                   }else {
+                       likeBtn.setImageResource(R.drawable.ic_like);
+                   }
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError databaseError) {
+
+               }
+           });
 
             //listeners
             this.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    likeBtn.setEnabled(false);
+                      if(likeBtn.getDrawable().getConstantState() == v.getContext().getResources().getDrawable( R.drawable.ic_like).getConstantState()){
+                          Toast.makeText(v.getContext(),"You Unliked this post",Toast.LENGTH_LONG).show();
+                          LikeStatic.likeRef.child(post.getId()).
+                                  child(UserStatic.currentUser.getUid())
+                                  .setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  PostStatic.postRef.child(post.getId()).runTransaction(new Transaction.Handler() {
+                                      @Override
+                                      public Transaction.Result doTransaction(MutableData mutableData) {
+                                          Post post = mutableData.getValue(Post.class);
+                                          if (post == null) {
+                                              return Transaction.success(mutableData);
+                                          }
 
+                                          post.setLikes(post.getLikes()-1);
+
+                                          // Set value and report transaction success
+                                          mutableData.setValue(post);
+                                          return Transaction.success(mutableData);
+                                      }
+
+                                      @Override
+                                      public void onComplete(DatabaseError databaseError, boolean b,
+                                                             DataSnapshot dataSnapshot) {
+                                          // Transaction completed
+                                          likeBtn.setEnabled(true);
+                                          Log.d("unliked", "postTransaction:onComplete:" + databaseError);
+                                      }
+                                  });
+                                  likeBtn.setImageResource(R.drawable.ic_unlike);
+
+                              }
+                          });
+                      }else{
+                          Toast.makeText(v.getContext(),"You Liked this post",Toast.LENGTH_LONG).show();
+                          LikeStatic.likeRef.child(post.getId()).child(UserStatic.currentUser.getUid()).setValue(UserStatic.currentUser.getUid())
+                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  likeBtn.setImageResource(R.drawable.ic_like);
+                                  PostStatic.postRef.child(post.getId()).runTransaction(new Transaction.Handler() {
+                                      @Override
+                                      public Transaction.Result doTransaction(MutableData mutableData) {
+                                          Post post = mutableData.getValue(Post.class);
+                                          if (post == null) {
+                                              return Transaction.success(mutableData);
+                                          }
+
+                                          post.setLikes(post.getLikes()+1);
+
+                                          // Set value and report transaction success
+                                          mutableData.setValue(post);
+                                          return Transaction.success(mutableData);
+                                      }
+
+                                      @Override
+                                      public void onComplete(DatabaseError databaseError, boolean b,
+                                                             DataSnapshot dataSnapshot) {
+                                          // Transaction completed
+                                          likeBtn.setEnabled(true);
+                                          Log.d("unliked", "postTransaction:onComplete:" + databaseError);
+                                      }
+                                  });
+                              }
+                          });
+
+                      }
                 }
             });
             this.commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                }
+                    Intent intent=new Intent( (v.getContext()),CommentActivity.class);
+                    intent.putExtra("post",post);
+                    ((Activity)v.getContext()).startActivity(intent);
+                 }
             });
 
         }
