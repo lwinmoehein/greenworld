@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import trapleh.io.greenworld.MainActivity;
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.model.User;
+import trapleh.io.greenworld.statics.UserStatic;
 
 public class RegisterActivity extends AppCompatActivity {
     TextInputEditText editTextName;
@@ -26,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String TAG = "Phone";
     private String userId = "user id no";
-    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+    DatabaseReference mDatabase = UserStatic.userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

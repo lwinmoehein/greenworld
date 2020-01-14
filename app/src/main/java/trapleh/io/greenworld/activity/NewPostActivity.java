@@ -119,6 +119,8 @@ public class NewPostActivity extends AppCompatActivity {
         //prepare data
 
         strPostText=postText.getText().toString();
+
+
         if(uriPostImgPath!=null){
             StorageReference childRef = PostStatic.postImageRef.child(UUID.randomUUID().toString()+".jpg");
             childRef.putFile(uriPostImgPath).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -158,7 +160,9 @@ public class NewPostActivity extends AppCompatActivity {
                     });
         }else {
             String id=postReference.push().getKey();
-            Post post=new Post(id,"uid","uname","profilepath",strPostText,false,"",0,0,ServerValue.TIMESTAMP);
+            Post post=new Post(id,
+                    "uid","uname"
+                    ,"profile_url",strPostText,false,"",0,0,ServerValue.TIMESTAMP);
             postReference.child(id).setValue(post)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
