@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,14 +36,19 @@ import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 import trapleh.io.greenworld.R;
+import trapleh.io.greenworld.adapter.CommentAdapter;
 import trapleh.io.greenworld.helper.PermissionHelper;
+import trapleh.io.greenworld.model.Comment;
 import trapleh.io.greenworld.model.Post;
+import trapleh.io.greenworld.statics.CommentStatic;
 import trapleh.io.greenworld.statics.LikeStatic;
 import trapleh.io.greenworld.statics.PostStatic;
 import trapleh.io.greenworld.statics.UserStatic;
@@ -48,20 +56,31 @@ import trapleh.io.greenworld.statics.UserStatic;
 public class CommentActivity extends AppCompatActivity {
     private ImageView backArrow,postUserProfile,postImage;
     private TextView postText,postLikes,postComments,postDate,postUserName;
-    private Button postBtn;
-    private ImageView likeBtn,commentBtn;
+    private ImageButton btnSendComment;
+    private ImageView likeBtn,btnComment;
+
+    EditText edtComment;
+    String strComment;
 
     static  Post post=null;
 
     ProgressDialog progressDialog;
 
+    List<Comment> commentList=new ArrayList<>();
+    List<String> commentIds=new ArrayList<>();
+    CommentAdapter commentAdapter=null;
+    RecyclerView commentRecycler=null;
 
-    DatabaseReference postReference= PostStatic.postRef;
+
+    DatabaseReference comentReference= CommentStatic.commentRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         post=(Post)getIntent().getSerializableExtra("post");
+
+        commentRecycler=findViewById(R.id.recycler_comments);
+
 
         postUserProfile=findViewById(R.id.post_user_profile);
         postImage=findViewById(R.id.post_item_image);
@@ -72,7 +91,9 @@ public class CommentActivity extends AppCompatActivity {
         postDate=findViewById(R.id.post_item_date);
 
         likeBtn=findViewById(R.id.post_item_like_btn);
-        commentBtn=findViewById(R.id.post_item_comment_btn);
+        btnComment=findViewById(R.id.post_item_comment_btn);
+
+        edtComment=findViewById(R.id.edt_comment_text);
 
         postUserName.setText(post.getUsername());
         postText.setText(post.getPosttitle());
@@ -99,7 +120,7 @@ public class CommentActivity extends AppCompatActivity {
         }
 
 
-        postBtn=findViewById(R.id.comment);
+        btnSendComment=findViewById(R.id.btn_send_comment);
         backArrow=findViewById(R.id.post_back_arrow);
 
         post=(Post)getIntent().getSerializableExtra("post");
@@ -112,14 +133,105 @@ public class CommentActivity extends AppCompatActivity {
         });
 
 
-        postBtn.setOnClickListener(new View.OnClickListener() {
+        btnSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPost();
+                uploadComment();
+            }
+        });
+
+        commentAdapter=new CommentAdapter(commentList);
+        commentRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        commentRecycler.setAdapter(commentAdapter);
+
+        //bind recycler
+        CommentStatic.commentRef.child(post.getId()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comment comment=dataSnapshot.getValue(Comment.class);
+                if(!commentIds.contains(comment.getId())){
+                    commentList.add(0,comment);
+                    commentIds.add(0,comment.getId());
+                    commentAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comment comment = (Comment) dataSnapshot.getValue(Comment.class);
+                if(commentIds.contains(comment.getId())){
+                    Toast.makeText(getApplicationContext(),Integer.toString(comment.getLikes()),Toast.LENGTH_LONG).show();
+                    commentAdapter.changeIndexData(comment,commentIds.indexOf(comment.getId()));
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
     }
+
+    private void uploadComment() {
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+        //prepare data
+        strComment=edtComment.getText().toString();
+        Toast.makeText(getApplicationContext(),post.getId(),Toast.LENGTH_LONG).show();
+
+        String id=comentReference.child(post.getId()).push().getKey();
+        Comment comment=new Comment(id,post.getId(),UserStatic.currentUser.getUid(),UserStatic.currentUser.getDisplayName(),UserStatic.currentUser.getPhotoUrl().toString(),strComment,0,ServerValue.TIMESTAMP);
+
+        comentReference.child(post.getId()).
+                child(id).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {@Override
+                    public void onSuccess(Void aVoid) {
+                    progressDialog.dismiss();
+
+                        //
+            PostStatic.postRef.child(post.getId()).runTransaction(new Transaction.Handler() {
+                @Override
+                public Transaction.Result doTransaction(MutableData mutableData) {
+                    Post post = mutableData.getValue(Post.class);
+                    if (post == null) {
+                        return Transaction.success(mutableData);
+                    }
+
+                    post.setComments(post.getComments()+1);
+
+                    // Set value and report transaction success
+                    mutableData.setValue(post);
+                    return Transaction.success(mutableData);
+                }
+
+                @Override
+                public void onComplete(DatabaseError databaseError, boolean b,
+                                       DataSnapshot dataSnapshot) {
+                    // Transaction completed
+                    likeBtn.setEnabled(true);
+                         Log.d("unliked", "postTransaction:onComplete:" + databaseError);
+                         }
+                      });
+                         //
+                        Toast.makeText(getApplicationContext(),"Uploaded new comment",Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+
+                    }
+                });
+
+    }
+
 
     private void addListeners() {
         PostStatic.postRef.child(post.getId()).addValueEventListener(new ValueEventListener() {
@@ -233,23 +345,4 @@ public class CommentActivity extends AppCompatActivity {
     }
 
 
-    private void uploadPost() {
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
-        //prepare data
-
-            String id=postReference.push().getKey();
-               postReference.child(id).setValue(post)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(getApplicationContext(),"Uploaded new Post",Toast.LENGTH_LONG).show();
-                    progressDialog.dismiss();
-                    finish();
-                }
-            });
-
-
-    }
 }
