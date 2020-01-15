@@ -2,7 +2,6 @@ package trapleh.io.greenworld.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuAdapter;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +31,6 @@ import java.util.List;
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.activity.CommentActivity;
 import trapleh.io.greenworld.model.Post;
-import trapleh.io.greenworld.model.User;
 import trapleh.io.greenworld.statics.LikeStatic;
 import trapleh.io.greenworld.statics.PostStatic;
 import trapleh.io.greenworld.statics.UserStatic;
@@ -50,10 +46,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @NonNull
     @Override public PostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view= LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.post_item_image, viewGroup, false);
+                .inflate(R.layout.post_item, viewGroup, false);
         PostViewHolder postViewHolder=new PostViewHolder(view);
         return postViewHolder;
     }

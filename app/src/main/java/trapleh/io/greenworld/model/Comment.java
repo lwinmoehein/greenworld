@@ -3,37 +3,8 @@ package trapleh.io.greenworld.model;
 
 public class Comment {
     private String id,postid,userid,username,profileurl,commenttitle;
-    private int likes,comments;
+    private int likes;
     private Object posteddate;
-
-
-    public String getPostid() {
-        return postid;
-    }
-
-    public void setPostid(String postid) {
-        this.postid = postid;
-    }
-
-    public String getProfileurl() {
-        return profileurl;
-    }
-
-    public void setProfileurl(String profileurl) {
-        this.profileurl = profileurl;
-    }
-
-    public Comment(String id, String postid, String userid, String username, String userprofile, String commenttitle , int likes, int comments, Object posteddate) {
-        this.id = id;
-        this.userid = userid;
-        this.username = username;
-        this.profileurl = userprofile;
-        this.commenttitle = commenttitle;
-        this.likes = likes;
-        this.comments = comments;
-        this.posteddate = posteddate;
-    }
-    public Comment(){}
 
     public String getId() {
         return id;
@@ -41,6 +12,14 @@ public class Comment {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPostid() {
+        return postid;
+    }
+
+    public void setPostid(String postid) {
+        this.postid = postid;
     }
 
     public String getUserid() {
@@ -59,12 +38,20 @@ public class Comment {
         this.username = username;
     }
 
+    public String getProfileurl() {
+        return profileurl;
+    }
+
+    public void setProfileurl(String profileurl) {
+        this.profileurl = profileurl;
+    }
+
     public String getCommenttitle() {
         return commenttitle;
     }
 
-    public void setCommenttitle(String posttitle) {
-        this.commenttitle = posttitle;
+    public void setCommenttitle(String commenttitle) {
+        this.commenttitle = commenttitle;
     }
 
     public int getLikes() {
@@ -75,14 +62,6 @@ public class Comment {
         this.likes = likes;
     }
 
-    public int getComments() {
-        return comments;
-    }
-
-    public void setComments(int comments) {
-        this.comments = comments;
-    }
-
     public Object getPosteddate() {
         return posteddate;
     }
@@ -90,4 +69,17 @@ public class Comment {
     public void setPosteddate(Object posteddate) {
         this.posteddate = posteddate;
     }
+
+    public Comment(String id, String postid, String userid, String username, String userprofile, String commenttitle , int likes, Object posteddate) {
+        this.id = id;
+        this.userid = userid;
+        this.username = username;
+        this.profileurl = userprofile;
+        this.postid=postid;
+        this.commenttitle = commenttitle;
+        this.likes = likes;
+        this.posteddate = posteddate;
+    }
+    public Comment(){}
+
 }
