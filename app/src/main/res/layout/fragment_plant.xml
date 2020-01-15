@@ -48,7 +48,7 @@
                 <TextView
                     android:id="@+id/live_percent"
                     android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="75%"
@@ -84,10 +84,10 @@
                 <TextView
                     android:id="@+id/death_percent"
                     android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="25%"
+                    android:text="250%"
                     android:textSize="20dp"/>
             </RelativeLayout>
 

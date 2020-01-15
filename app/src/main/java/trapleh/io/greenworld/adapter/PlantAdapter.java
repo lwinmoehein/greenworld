@@ -29,6 +29,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     public PlantAdapter(List<Plant> plantArrayList) {
         this.plantArrayList = plantArrayList;
+        this.setHasStableIds(true);
     }
 
     @NonNull
@@ -43,9 +44,18 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         Plant post= plantArrayList.get(i);
         menuViewHolder.bindPostUi(post);
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override public int getItemCount() {
         return plantArrayList.size();
+
     }
 
 
