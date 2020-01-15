@@ -21,6 +21,7 @@ import java.util.Date;
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.model.Plant;
 import trapleh.io.greenworld.model.Post;
+import trapleh.io.greenworld.statics.UserStatic;
 
 
 public class Plant_Upload_Dialog extends Dialog {
@@ -41,8 +42,7 @@ public class Plant_Upload_Dialog extends Dialog {
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference postReference= FirebaseDatabase.getInstance().getReference().child("user_id").child("LIVE_PLANT");
-
+                DatabaseReference postReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("LIVE_PLANT");
                 String id=postReference.push().getKey();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 Date date = new Date();

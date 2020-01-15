@@ -28,18 +28,23 @@ import java.util.ArrayList;
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.adapter.PlantAdapter;
 import trapleh.io.greenworld.model.Plant;
+import trapleh.io.greenworld.statics.UserStatic;
 import trapleh.io.greenworld.ui.Plant_Upload_Dialog;
 
 
 public class PlantFragment extends Fragment {
-    DatabaseReference liveplantReference= FirebaseDatabase.getInstance().getReference().child("user_id").child("LIVE_PLANT");
-    DatabaseReference deathplantReference= FirebaseDatabase.getInstance().getReference().child("user_id").child("DEATH_PLANT");
+    DatabaseReference liveplantReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("LIVE_PLANT");
+    DatabaseReference deathplantReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("DEATH_PLANT");
 
     ArrayList<Plant> ary_live=new ArrayList<>();
     ArrayList<String> id_live=new ArrayList<>();
 
     ArrayList<Plant> ary_death=new ArrayList<>();
     ArrayList<String> id_death =new ArrayList<>();
+
+    Button btn_live,btn_death;
+    TextView live_percent,death_percent;
+    RoundCornerProgressBar progress_live,progress_death;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,21 +62,21 @@ public class PlantFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RoundCornerProgressBar progress_live = (RoundCornerProgressBar) view.findViewById(R.id.progress_1);
-        RoundCornerProgressBar progress_death = (RoundCornerProgressBar) view.findViewById(R.id.progress_death);
-        final Button btn_live=view.findViewById(R.id.btn_live);
-        final Button btn_death=view.findViewById(R.id.btn_death);
+        progress_live = (RoundCornerProgressBar) view.findViewById(R.id.progress_1);
+        progress_death = (RoundCornerProgressBar) view.findViewById(R.id.progress_death);
+        btn_live=view.findViewById(R.id.btn_live);
+        btn_death=view.findViewById(R.id.btn_death);
         final RecyclerView rv_live=view.findViewById(R.id.rv_live);
         final RecyclerView rv_death=view.findViewById(R.id.rv_death);
-        TextView live_percent=view.findViewById(R.id.live_percent);
-        TextView death_percent=view.findViewById(R.id.death_percent);
+        live_percent=view.findViewById(R.id.live_percent);
+        death_percent=view.findViewById(R.id.death_percent);
 
 
         progress_live.setMax(100);
         progress_death.setMax(100);
 
-        progress_live.setProgress(75);
-        progress_death.setProgress(25);
+        progress_live.setProgress(0);
+        progress_death.setProgress(0);
 
 
         PlantAdapter plantAdapter_forlive=new PlantAdapter(ary_live);
@@ -94,15 +99,7 @@ public class PlantFragment extends Fragment {
                 rv_live.setVisibility(View.VISIBLE);
                 rv_death.setVisibility(View.GONE);
 
-                btn_death.setText("DEATH ( "+ary_death.size()+" )");
-                btn_live.setText("LIVE ( "+ary_live.size()+" )");
-                live_percent.setText((ary_live.size()*100)/(ary_live.size()+ary_death.size())+"%");
-                death_percent.setText(100-((ary_live.size()*100)/(ary_live.size()+ary_death.size()))+"%");
-                progress_live.setMax(ary_live.size()+ary_death.size());
-                progress_death.setMax(ary_live.size()+ary_death.size());
 
-                progress_live.setProgress(ary_live.size());
-                progress_death.setProgress(ary_death.size());
             }
         });
 
@@ -115,10 +112,6 @@ public class PlantFragment extends Fragment {
                 btn_live.setTextColor(getResources().getColor(R.color.colorPrimary) );
                 rv_live.setVisibility(View.GONE);
                 rv_death.setVisibility(View.VISIBLE);
-
-                btn_death.setText("DEATH ( "+ary_death.size()+" )");
-                btn_live.setText("LIVE ( "+ary_live.size()+" )");
-
             }
         });
 
@@ -134,15 +127,20 @@ public class PlantFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Plant post=dataSnapshot.getValue(Plant.class);
-                ary_live.add(0,post);
-                id_live.add(0, dataSnapshot.getKey());
-                plantAdapter_forlive.notifyItemInserted(0);
-                plantAdapter_forlive.notifyDataSetChanged();
+                if(!id_live.contains(post.getId())){
+                    ary_live.add(0,post);
+                    id_live.add(0, dataSnapshot.getKey());
+                    plantAdapter_forlive.notifyItemInserted(0);
+                    plantAdapter_forlive.notifyDataSetChanged();
+                }
+
+                refreshData();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 plantAdapter_forlive.notifyDataSetChanged();
+                refreshData();
             }
 
             @Override
@@ -155,11 +153,13 @@ public class PlantFragment extends Fragment {
                     ary_live.remove(postIndex);
                     plantAdapter_forlive.notifyDataSetChanged();
                 }
+                refreshData();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 plantAdapter_forlive.notifyDataSetChanged();
+                refreshData();
             }
 
             @Override
@@ -172,10 +172,18 @@ public class PlantFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Plant post=dataSnapshot.getValue(Plant.class);
-                ary_death.add(0,post);
-                id_death.add(0, dataSnapshot.getKey());
-                plantAdapter_fordeath.notifyItemInserted(0);
-                plantAdapter_fordeath.notifyDataSetChanged();
+                if(!id_death.contains(post.getId())){
+                    ary_death.add(0,post);
+                    id_death.add(0, dataSnapshot.getKey());
+                    plantAdapter_fordeath.notifyItemInserted(0);
+                    plantAdapter_fordeath.notifyDataSetChanged();
+                }
+
+
+                refreshData();
+
+
+
             }
 
             @Override
@@ -208,6 +216,18 @@ public class PlantFragment extends Fragment {
         });
 
     }
+
+    private void refreshData(){
+        btn_death.setText("DEATH ( "+ary_death.size()+" )");
+        btn_live.setText("LIVE ( "+ary_live.size()+" )");
+        live_percent.setText((ary_live.size()*100)/(ary_live.size()+ary_death.size())+"%");
+        death_percent.setText(100-((ary_live.size()*100)/(ary_live.size()+ary_death.size()))+"%");
+        progress_live.setMax(ary_live.size()+ary_death.size());
+        progress_death.setMax(ary_live.size()+ary_death.size());
+        progress_live.setProgress(ary_live.size());
+        progress_death.setProgress(ary_death.size());
+    }
+
 
 
 }

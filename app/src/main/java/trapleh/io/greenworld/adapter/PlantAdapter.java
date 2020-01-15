@@ -21,6 +21,7 @@ import java.util.List;
 
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.model.Plant;
+import trapleh.io.greenworld.statics.UserStatic;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder>{
 
@@ -82,7 +83,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
             plant_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DatabaseReference postReference= FirebaseDatabase.getInstance().getReference().child("user_id").child("DEATH_PLANT");
+                    DatabaseReference postReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("DEATH_PLANT");
                     String id=postReference.push().getKey();
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     Date date = new Date();
@@ -96,8 +97,8 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
                             });
 
 
-                    DatabaseReference mpostReference=FirebaseDatabase.getInstance().getReference()
-                            .child("user_id").child("LIVE_PLANT").child(plant.getId());
+                    DatabaseReference mpostReference=FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("LIVE_PLANT").child(plant.getId());
+
                     mpostReference.removeValue();
                 }
             });
