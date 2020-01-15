@@ -9,6 +9,7 @@ public class Plant {
         this.status=status;
         this.date=date;
     }
+    public Plant(){}
 
     public String getId() {
         return id;

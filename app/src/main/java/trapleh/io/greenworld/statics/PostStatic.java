@@ -8,4 +8,6 @@ import com.google.firebase.storage.StorageReference;
 public class PostStatic {
     public static DatabaseReference postRef= FirebaseDatabase.getInstance().getReference().child("posts");
     public static StorageReference postImageRef= FirebaseStorage.getInstance().getReference().child("posts/postimages/");
+
+
 }

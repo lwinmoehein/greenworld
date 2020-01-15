@@ -5,11 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import trapleh.io.greenworld.R;
@@ -62,6 +69,28 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
             }else{
                 this.plant_delete.setVisibility(View.GONE);
             }
+            plant_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DatabaseReference postReference= FirebaseDatabase.getInstance().getReference().child("user_id").child("DEATH_PLANT");
+                    String id=postReference.push().getKey();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    Date date = new Date();
+                    Plant pp=new Plant(id,plant.getName(),plant.getAddress(),"false",plant.getDate()+" to "+formatter.format(date));
+                    postReference.child(id).setValue(pp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(v.getContext(),"Deleated Plant",Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
+                    DatabaseReference mpostReference=FirebaseDatabase.getInstance().getReference()
+                            .child("user_id").child("LIVE_PLANT").child(plant.getId());
+                    mpostReference.removeValue();
+                }
+            });
         }
     }
 
