@@ -1,6 +1,8 @@
 package trapleh.io.greenworld.model;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     private String id,userid,username,profileurl,posttitle,imageurl;
     private int likes,comments;
     private Object posteddate;

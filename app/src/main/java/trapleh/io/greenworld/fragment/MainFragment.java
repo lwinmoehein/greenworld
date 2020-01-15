@@ -2,6 +2,7 @@ package trapleh.io.greenworld.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class MainFragment extends Fragment {
     FloatingActionButton addPost;
     PostAdapter adapterPosts;
     List<Post> posts=new ArrayList<>();
+    List<String> postIds=new ArrayList<>();
 
     DatabaseReference postReference= PostStatic.postRef;
     @Override
@@ -62,13 +64,20 @@ public class MainFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Post post=dataSnapshot.getValue(Post.class);
-                posts.add(post);
-                adapterPosts.notifyDataSetChanged();
+                if(!postIds.contains(post.getId())){
+                    posts.add(0,post);
+                    postIds.add(0,post.getId());
+                    adapterPosts.notifyDataSetChanged();
+                }
+
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Post post = (Post) dataSnapshot.getValue(Post.class);
+                if(postIds.contains(post.getId())){
+                    adapterPosts.changeIndexData(post,postIds.indexOf(post.getId()));
+                }
             }
 
             @Override

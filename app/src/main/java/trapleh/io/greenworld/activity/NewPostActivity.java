@@ -29,6 +29,7 @@ import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.helper.PermissionHelper;
 import trapleh.io.greenworld.model.Post;
 import trapleh.io.greenworld.statics.PostStatic;
+import trapleh.io.greenworld.statics.UserStatic;
 
 public class NewPostActivity extends AppCompatActivity {
     private ImageView backArrow,selectedImage;
@@ -95,13 +96,15 @@ public class NewPostActivity extends AppCompatActivity {
                     .show(new TedBottomSheetDialogFragment.OnImageSelectedListener() {
                         @Override
                         public void onImageSelected(Uri uri) {
-                            selectedImage.setVisibility(View.VISIBLE);
-                            Picasso.get()
-                                    .load(uri)
-                                    .resize(300, 300)
-                                    .centerCrop()
-                                    .into(selectedImage);
-                            uriPostImgPath=uri;
+                            if(uri!=null) {
+                                selectedImage.setVisibility(View.VISIBLE);
+                                Picasso.get()
+                                        .load(uri)
+                                        .resize(300, 300)
+                                        .centerCrop()
+                                        .into(selectedImage);
+                                uriPostImgPath = uri;
+                            }
                          }
                     });
 
@@ -119,6 +122,8 @@ public class NewPostActivity extends AppCompatActivity {
         //prepare data
 
         strPostText=postText.getText().toString();
+
+
         if(uriPostImgPath!=null){
             StorageReference childRef = PostStatic.postImageRef.child(UUID.randomUUID().toString()+".jpg");
             childRef.putFile(uriPostImgPath).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -147,9 +152,12 @@ public class NewPostActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String id=postReference.push().getKey();
-                                    Post post=new Post(id,"uid","uname","profilepath",strPostText,true,uri.toString(),0,0,ServerValue.TIMESTAMP);
+                                    Post post=new Post(id, UserStatic.currentUser.getUid(),UserStatic.currentUser.getDisplayName()
+                                            ,UserStatic.currentUser.getPhotoUrl().toString(),strPostText,true,uri.toString(),0,0,ServerValue.TIMESTAMP);
                                     postReference.child(id).setValue(post);
                                     Toast.makeText(getApplicationContext(),"Uploaded new Post",Toast.LENGTH_LONG).show();
+                                    finish();
+
 
                                 }
                             })
@@ -158,13 +166,16 @@ public class NewPostActivity extends AppCompatActivity {
                     });
         }else {
             String id=postReference.push().getKey();
-            Post post=new Post(id,"uid","uname","profilepath",strPostText,false,"",0,0,ServerValue.TIMESTAMP);
+            Post post=new Post(id,
+                    UserStatic.currentUser.getUid(),UserStatic.currentUser.getDisplayName()
+                    ,UserStatic.currentUser.getPhotoUrl().toString(),strPostText,false,"",0,0,ServerValue.TIMESTAMP);
             postReference.child(id).setValue(post)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(getApplicationContext(),"Uploaded new Post",Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
+                    finish();
                 }
             });
 
