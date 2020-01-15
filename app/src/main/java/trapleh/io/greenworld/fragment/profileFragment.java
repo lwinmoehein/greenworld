@@ -1,8 +1,7 @@
 package trapleh.io.greenworld.fragment;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import trapleh.io.greenworld.R;
@@ -30,11 +28,14 @@ public class profileFragment extends Fragment {
     private CircleImageView profileImage;
     private Button buttonLogout;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class profileFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+            }
+        });
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileViewButtonSheetDialog profileViewButtonSheetDialog = new ProfileViewButtonSheetDialog();
+                profileViewButtonSheetDialog.show(getActivity().getSupportFragmentManager(),"profile_button_sheet");
+
             }
         });
 

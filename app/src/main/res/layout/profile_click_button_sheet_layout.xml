@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:drawableLeft="@drawable/ic_view_profile_green_24dp"
+        android:id="@+id/buttonProfileView"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:textAllCaps="false"
+        android:paddingTop="15dp"
+        android:textAlignment="textStart"
+        style="?android:attr/borderlessButtonStyle"
+        android:paddingStart="15dp"
+        android:drawablePadding="15dp"
+        android:text="View Profile Picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:drawablePadding="15dp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:drawableLeft="@drawable/ic_select_photo_gallery_green_24dp"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="15dp"
+        android:paddingStart="15dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="Select Profile Picture"
+        android:id="@+id/buttonUploadProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
