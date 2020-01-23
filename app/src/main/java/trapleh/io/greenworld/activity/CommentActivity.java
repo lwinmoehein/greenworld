@@ -114,8 +114,7 @@ public class CommentActivity extends AppCompatActivity {
             postImage.setVisibility(View.VISIBLE);
             Picasso.get()
                     .load(post.getImageurl())
-                    .resize(300, 200)
-                    .centerCrop().placeholder(R.drawable.post_img_placeholder)
+                    .placeholder(R.drawable.post_img_placeholder)
                     .into(postImage);
         }
 

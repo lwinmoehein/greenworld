@@ -4,9 +4,8 @@
     android:id="@+id/post_item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="7dp"
-    android:maxHeight="300dp"
-    app:cardElevation="4dp">
+    android:layout_marginBottom="12dp"
+    app:cardElevation=".5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +19,8 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                app:civ_border_width="1.2dp"
+                app:civ_border_color="@color/colorPrimary"
                 android:id="@+id/post_user_profile"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -33,6 +34,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:fontFamily="@font/padauk_bold"
                     android:id="@+id/post_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,6 +44,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:fontFamily="@font/padauk_regular"
                     android:id="@+id/post_item_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -56,31 +59,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
+                android:padding="15dp"
+                android:fontFamily="@font/padauk_bold"
                 android:id="@+id/post_item_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:text="testing testing testing testing testing testing testing testing teesting tresing teisgtn tesgting testn" />
 
             <ImageView
                 android:id="@+id/post_item_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:maxHeight="100dp"
+                android:adjustViewBounds="true"
+                android:layout_marginBottom="5dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/post_img_placeholder" />
-        </LinearLayout>
 
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height=".2dp"
+            android:background="#c0c0c0"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:orientation="horizontal"
             android:padding="5dp">
@@ -91,59 +98,45 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.4"
-                    android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/post_item_like_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_like" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/post_item_like_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical"
+                    android:text="0 likes" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/post_item_like_btn"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_like" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/post_item_like_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="0 likes" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/post_item_comment_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_comment" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/post_item_comment_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/post_item_comment_btn"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_comment" />
-
-                    <TextView
-                        android:id="@+id/post_item_comment_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="0 comments" />
-                </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:text="0 comments" />
+            </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -100,8 +100,6 @@ public class NewPostActivity extends AppCompatActivity {
                                 selectedImage.setVisibility(View.VISIBLE);
                                 Picasso.get()
                                         .load(uri)
-                                        .resize(300, 300)
-                                        .centerCrop()
                                         .into(selectedImage);
                                 uriPostImgPath = uri;
                             }

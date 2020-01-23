@@ -119,8 +119,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 postimage.setVisibility(View.VISIBLE);
                 Picasso.get()
                         .load(post.getImageurl())
-                        .resize(300, 200)
-                        .centerCrop().placeholder(R.drawable.post_img_placeholder)
+                       .placeholder(R.drawable.post_img_placeholder)
                         .into(postimage);
             }
             PrettyTime p = new PrettyTime();

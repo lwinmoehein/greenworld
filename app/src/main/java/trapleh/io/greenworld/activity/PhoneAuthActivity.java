@@ -58,8 +58,6 @@ public class PhoneAuthActivity extends AppCompatActivity {
         }
         editTextVerifyCode = findViewById(R.id.editTextVerifyCode);
         phoneNo = getIntent().getStringExtra("phone_no").replaceFirst("0","+95");
-        textViewPhoneNo = findViewById(R.id.textViewPhoneNo);
-        textViewPhoneNo.setText(phoneNo);
 
         // [START initialize_auth]
         // Initialize Firebase Auth
