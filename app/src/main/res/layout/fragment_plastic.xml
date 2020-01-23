@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/indicator"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/ten_dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="@dimen/ten_dp"
+        app:cardCornerRadius="@dimen/ten_dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/daily_btn"
+                android:text="Daily"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/colorPrimary"/>
+            <TextView
+                android:id="@+id/overall_btn"
+                android:text="Overall"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:id="@+id/daily_frame"
+        android:layout_below="@id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:padding="@dimen/ten_dp"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_margin="@dimen/ten_dp"
+                app:cardCornerRadius="@dimen/ten_dp"
+                >
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_global"/>
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="1,100"
+                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/ten_dp"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"/>
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_plastic"/>
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="700"
+                            android:textSize="20dp"
+                            android:gravity="center"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/circle"
+                >
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/daily_PLastic_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/white"
+                        android:textSize="60dp"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_below="@+id/daily_PLastic_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Today"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="30dp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_plastic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/ten_dp"
+            android:src="@drawable/ic_add"
+            app:rippleColor="@color/red"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_below="@id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/overall_frame"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.github.mikephil.charting.charts.PieChart
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/chart"
+                android:layout_centerHorizontal="true"
+                />
+            <com.github.mikephil.charting.charts.HorizontalBarChart
+                android:layout_marginTop="@dimen/ten_dp"
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

@@ -3,13 +3,15 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "trapleh.io.greenworld"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -47,7 +49,7 @@ dependencies {
     implementation 'org.michaelbel:bottomsheet:1.2.3'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
 }

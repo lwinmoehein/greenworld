@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import trapleh.io.greenworld.R;
 import trapleh.io.greenworld.activity.CommentActivity;
 import trapleh.io.greenworld.model.Post;
@@ -83,7 +84,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     static class PostViewHolder extends RecyclerView.ViewHolder {
         private TextView username,posttext,liketext,commenttext,date;
-        private ImageView userprofile,postimage,likeBtn,commentBtn;
+        private ImageView postimage,likeBtn,commentBtn;
+        private CircleImageView userprofile;
         public PostViewHolder(View view){
             super(view);
             this.username=view.findViewById(R.id.post_user_name);

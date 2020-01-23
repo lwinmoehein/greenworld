@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import trapleh.io.greenworld.fragment.MainFragment;
 import trapleh.io.greenworld.fragment.PlantFragment;
+import trapleh.io.greenworld.fragment.PlasticFragment;
 import trapleh.io.greenworld.fragment.profileFragment;
 import trapleh.io.greenworld.ui.TabAdapter;
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TabAdapter(getSupportFragmentManager());
 
         adapter.addFragment(new MainFragment(), "home");
-        adapter.addFragment(new MainFragment(), "plastic");
+        adapter.addFragment(new PlasticFragment(), "plastic");
         adapter.addFragment(new PlantFragment(), "plants");
         adapter.addFragment(new profileFragment(), "profile");
 

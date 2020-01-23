@@ -119,7 +119,7 @@
             android:id="@+id/btn_live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Live ( 75 )"
+            android:text="Live ( 0 )"
             android:background="@drawable/live_design_click"
             android:textColor="#fff"
             android:textStyle="bold"
@@ -130,7 +130,7 @@
             android:id="@+id/btn_death"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Death ( 25 )"
+            android:text="Death ( 0 )"
             android:background="@drawable/death_design_enable"
             android:textColor="@color/colorPrimary"
             />
