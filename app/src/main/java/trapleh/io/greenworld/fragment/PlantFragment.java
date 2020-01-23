@@ -36,11 +36,11 @@ public class PlantFragment extends Fragment {
     DatabaseReference liveplantReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("LIVE_PLANT");
     DatabaseReference deathplantReference= FirebaseDatabase.getInstance().getReference().child("Plants").child(UserStatic.currentUser.getUid()).child("DEATH_PLANT");
 
-    ArrayList<Plant> ary_live=new ArrayList<>();
-    ArrayList<String> id_live=new ArrayList<>();
+    ArrayList<Plant> ary_live;
+    ArrayList<String> id_live;
 
-    ArrayList<Plant> ary_death=new ArrayList<>();
-    ArrayList<String> id_death =new ArrayList<>();
+    ArrayList<Plant> ary_death;
+    ArrayList<String> id_death ;
 
     Button btn_live,btn_death;
     TextView live_percent,death_percent;
