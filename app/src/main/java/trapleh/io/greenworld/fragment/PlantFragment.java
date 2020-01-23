@@ -56,6 +56,10 @@ public class PlantFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_plant, container, false);
+        ary_live=new ArrayList<>();
+        id_live=new ArrayList<>();
+        ary_death=new ArrayList<>();
+        id_death =new ArrayList<>();
         return view;
     }
 
@@ -127,13 +131,10 @@ public class PlantFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Plant post=dataSnapshot.getValue(Plant.class);
-                if(!id_live.contains(post.getId())){
                     ary_live.add(0,post);
                     id_live.add(0, dataSnapshot.getKey());
                     plantAdapter_forlive.notifyItemInserted(0);
                     plantAdapter_forlive.notifyDataSetChanged();
-                }
-
                 refreshData();
             }
 
@@ -172,12 +173,10 @@ public class PlantFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Plant post=dataSnapshot.getValue(Plant.class);
-                if(!id_death.contains(post.getId())){
                     ary_death.add(0,post);
                     id_death.add(0, dataSnapshot.getKey());
                     plantAdapter_fordeath.notifyItemInserted(0);
                     plantAdapter_fordeath.notifyDataSetChanged();
-                }
 
 
                 refreshData();
